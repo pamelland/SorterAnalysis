@@ -1,0 +1,15 @@
+-- Run ./PostSorter-PreAnalysis  readjust_spTime_from_bin_ms.m to adjust spike times for blocks that do not start at ground truth time t=0, or that span a 4 hour chunk
+
+-- Run /SpikeTrainSimilarity spike_train_hits.m to generate ground truth and sorted spike times clipped to the desired time window of analysis. These generate 'st1' and 'st2' that are used by other scripts. *RECOMMENDED TO RUN SECTION BY SECTION IGNORING THE SECTION %% OPTION to process kilosort (KS) sorter output *
+
+-- Waveform scripts are in ./ExtractWaveforms. Modify extract_multi_unit_wf.m to generate and save waves in a cell structure.
+
+-- ./SpikeTrainSimilarity plot_ccg_script.m for cross correlogram plots.
+
+-- Remember to adjust paths in set_main_path.m for local directories.
+
+-- KEY DIRECTORIES ON MANEFRAME:
+
+    -- 24 hour .bin file: /work/group/abarreiro/lowddatastr/PfeifferData/DownloadedTetrodeData/Data/ZERO/SPIKES-001-002-003-004-005-006/
+
+    -- Ground truth data: /work/group/abarreiro/lowddatastr/PfeifferData/DownloadedTetrodeData/Data/GroundTruth

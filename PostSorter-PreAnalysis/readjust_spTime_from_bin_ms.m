@@ -1,0 +1,58 @@
+%% Need to load SI (spike time from spike interface) & BR_conc_table (in time_look_up.mat)
+% will save files to 'paths.sorter_output'
+
+
+%% Load sorter data downloaded from maneframe
+
+
+% set time offset for 2hr block sorting (if necessary)
+time_offset = 0 * 60 * 60; % in seconds
+
+% Set tetrode -- '1' for ZENODO/FAST data
+tetrode = 1;
+
+% path to spike interface output
+SI = load( fullfile(paths.sorted_spikes, 'firings.mat') );
+
+
+% path to time adjustment lookup for bin file
+paths.bin_path = fileparts( paths.bin_file );
+load( fullfile(paths.bin_path, 'time_look_up.mat' ))
+
+Fs = 30000;
+%%
+
+% ADD OFFSET BY SORTING IN 2 HOUR BLOCKS (IF NECESSARY)
+sp_times = double( [SI.spike_indexes_seg0(:)] ) ./ Fs + time_offset;
+
+% This will be the spike times re-adjusting for time between nev files
+
+sp_times_corrected = sp_times;
+
+for file_iter = 1 : size( BR_conc_table, 1)
+    t_start = BR_conc_table.t_start( file_iter );
+    t_end   = BR_conc_table.t_end( file_iter );
+    t_shift = BR_conc_table.t_shift( file_iter );
+    
+    sp_idxs = sp_times >= t_start & sp_times <= t_end;
+    sp_times_corrected( sp_idxs ) = sp_times_corrected( sp_idxs ) + t_shift;
+    
+end
+
+%% SAVE TO 'paths.sorted_spikes' as 'firings_adjusted'
+SI.spike_indexes_seg0 = round( sp_times_corrected .*Fs );
+
+unit_ids           = SI.unit_ids;
+num_segment        = SI.num_segment;
+sampling_frequency = SI.sampling_frequency;
+spike_indexes_seg0 = SI.spike_indexes_seg0;
+spike_labels_seg0  = SI.spike_labels_seg0;
+save(fullfile(paths.sorted_spikes, 'firings_adjusted'), ...
+    'unit_ids', ...
+    'num_segment', ...
+    'sampling_frequency', ...
+    'spike_indexes_seg0', ...
+    'spike_labels_seg0')
+
+unit_map = tetrode .* ones(numel(unit_ids),1);
+save(fullfile(paths.sorted_spikes,'unit_map.mat'), 'unit_map')
