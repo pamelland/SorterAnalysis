@@ -1,12 +1,13 @@
 %% Need to load SI (spike time from spike interface) & BR_conc_table (in time_look_up.mat)
 % will save files to 'paths.sorter_output'
 
-
+offsets = [10*60*60 20*60*60];
+cuts    = [0   2*60*60   4*60*60];
 %% Load sorter data downloaded from maneframe
 
 
 % set time offset for 2hr block sorting (if necessary)
-time_offset = start_in_hours(1) * 60 * 60; % in seconds
+% time_offset = start_in_hours(1) * 60 * 60; % in seconds
 
 % Set tetrode -- '1' for ZENODO/FAST data
 tetrode = 1;
@@ -21,22 +22,28 @@ load( fullfile(paths.bin_path, 'time_look_up.mat' ))
 
 Fs = 30000;
 %%
+sp_times_all = double( [SI.spike_indexes_seg0(:)] ) ./ Fs;
+sp_times_corrected = [];
 
-% ADD OFFSET BY SORTING IN 2 HOUR BLOCKS (IF NECESSARY)
-sp_times = double( [SI.spike_indexes_seg0(:)] ) ./ Fs + time_offset;
+for block_iter = 1 : numel( offsets )
+    sp_times_keep = sp_times_all >= cuts(block_iter) & sp_times_all < cuts(block_iter+1);
 
-% This will be the spike times re-adjusting for time between nev files
-
-sp_times_corrected = sp_times;
-
-for file_iter = 1 : size( BR_conc_table, 1)
-    t_start = BR_conc_table.t_start( file_iter );
-    t_end   = BR_conc_table.t_end( file_iter );
-    t_shift = BR_conc_table.t_shift( file_iter );
+    % ADD OFFSET BY SORTING IN 2 HOUR BLOCKS (IF NECESSARY)
+    sp_times = sp_times_all( sp_times_keep ) + (offsets( block_iter ) - cuts(block_iter));
     
-    sp_idxs = sp_times >= t_start & sp_times < t_end;
-    sp_times_corrected( sp_idxs ) = sp_times_corrected( sp_idxs ) + t_shift;
+  
     
+    sp_times_corrected_loc = sp_times;
+    
+    for file_iter = 1 : size( BR_conc_table, 1)
+        t_start = BR_conc_table.t_start( file_iter );
+        t_end   = BR_conc_table.t_end( file_iter );
+        t_shift = BR_conc_table.t_shift( file_iter );
+        
+        sp_idxs = sp_times >= t_start & sp_times <= t_end;
+        sp_times_corrected_loc( sp_idxs ) = sp_times_corrected_loc( sp_idxs ) + t_shift;
+    end
+    sp_times_corrected = [sp_times_corrected; sp_times_corrected_loc];
 end
 
 %% SAVE TO 'paths.sorted_spikes' as 'firings_adjusted'

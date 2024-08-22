@@ -21,8 +21,9 @@ Fs = 30000; % Hz
 TETS = [1];
 restrict_multi_tet_temps = false;
 % t_cut --> time to cut (typically because BP data has all 24 hours sorted)
-t_start = [10] .* 60 * 60;
-t_end   = [22] .* 60 * 60; % in seconds
+t_start = 60 * 60 * 10;
+% t_end   = 60 * 60 * 23.999; % in seconds
+t_end   = 60 * 60 * 12; % in seconds
 % =========================================================================
 
 
@@ -172,9 +173,9 @@ num_spikes_SS = num_spikes_SS(:)'; % make it a row vectorx
 %  likely does) refer to multiple instances of a single sorted unit
 %    --> In this case use spike_count_mat
 
-n_match = spike_count_near_mat;
+% n_match = spike_count_near_mat;
 
-% n_match = spike_count_mat;
+n_match = spike_count_mat;
 % -------------------------------------------------------------------------
 
 
@@ -185,9 +186,7 @@ n_miss  = num_spikes_GT - n_match;
 n_fp    = num_spikes_SS - n_match;
 
 % accuracy
-Accuracy_mat    = n_match ./ ( n_match + n_miss + n_fp);
-% precision
-precision_mat   = n_match ./ (n_match + n_fp);
+Accuracy_mat = n_match ./ ( n_match + n_miss + n_fp);
 [accuracy, matched_SS] = max(Accuracy_mat, [], 2);
 
 % score
@@ -224,7 +223,7 @@ fprintf('\n** Recall ** average = %0.2f; weighted average = %0.2f\n',...
 %% Imagesc by tetrode
 clc
 % --- save figure ?? --- %
-save_fig = false;
+save_fig = true;
 % ---------------------- %
 
 tet_list = 1;
@@ -677,13 +676,13 @@ set(gcf, 'Position', [screen_dim(3)/2 - f_width/2, ...
                       screen_dim(4), ...
                       f_width, ...
                       f_height])
-heat_tiles.Title.String = sprintf('Window (in hours): %02d-%02d',round( [t_start t_end] ./ 60 ./ 60));
+heat_tiles.Title.String = sprintf('Window (in hours): %02d-%02d',[start_in_hours end_in_hours]);
 heat_tiles.Title.FontWeight = 'normal';
 if save_fig
     fig_path = '/Users/pakemelland/Desktop/ConfusionMats'
     % fprintf('\n\n*** Adjust figure width, then press enter ***\n\n')
     % pause(1)
-    writeFig(gcf, gcf,fig_path,sprintf('window_%04d-%04d_MS_NON-CONTIGUOUS', round( [t_start t_end] ./ 60)), 'pdf', 300)
+    writeFig(gcf, gcf,fig_path,sprintf('window_%04d-%04d', [start_in_hours end_in_hours].*60), 'pdf', 300)
 end
 
 

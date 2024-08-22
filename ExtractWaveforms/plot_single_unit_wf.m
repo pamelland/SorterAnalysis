@@ -1,11 +1,11 @@
 pars.Fs            = 30000;             % sampling frequency
 pars.n_rows        = 4;                 % rows per waveform plot
-pars.n_waves_plot  = 1000;               % number of waveforms for plot
+pars.n_waves_plot  = 500;               % number of waveforms for plot
 pars.n_waves_avg   = 1000;               % number of waveforms for average
 pars.num_chn       = 4;                % number of channels in .bin file
 pars.bin_path      = paths.bin_file;
-pars.pre_sp_samps  = 31; %16                % time samples before spike
-pars.post_sp_samps = 31; %43                % time samples after spike
+pars.pre_sp_samps  = 32; %16                % time samples before spike
+pars.post_sp_samps = 33; %43                % time samples after spike
 pars.top4_color    = [0   52  250];     % color for top4 spikes [0-255]
 pars.axis_qs       = [0.1 99.9];      % quantiles for axis limits
 pars.t_shift_flag  = true;
@@ -13,8 +13,8 @@ pars.yMAX          = nan;               % set to nan for smart selection
 pars.yMIN          = nan;              % set to nan for smart selection
 
 %% set a spike train and a unit number
-st      = st1; %% spike train already loaded into workspace
-unit_no = 5;
+st      = st2; %% spike train already loaded into workspace
+unit_no = 16;
 
 %% Or instead, set a ground truth unit (unit_no) and a sorted candidate (sorted_label)
 %  Then only keep events of unit_no that overlap with sorted_label

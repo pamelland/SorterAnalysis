@@ -60,7 +60,7 @@ for j = 1:numel(temps_to_check)
     Q_list(j) = Q;
     R_list(j) = R;
     num_spike_list(j) = num_spikes;
-    fprintf('\nTemplate %d of %d finished.\n', j, numel(temps_to_check));
+    % fprintf('\nTemplate %d of %d finished.\n', j, numel(temps_to_check));
 end
 
 table_headings = {'template','num spikes', 'Q', 'R', 'fcont_cut', 'R_cut', ...

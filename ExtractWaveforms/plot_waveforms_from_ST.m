@@ -26,7 +26,6 @@ yMAX           = pars.yMAX;             % set to nan for smart selection
 % find where this unit occurs in spike train and get spike times
 spike_locs  = st(:, 2) == unit_no;
 spike_times = st( spike_locs, 1);
-num_spikes  = numel( spike_times );
 % ----------------------------------------------------------------------- %
 
 

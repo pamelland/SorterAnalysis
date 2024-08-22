@@ -45,10 +45,10 @@ for spike_j = 1 : size(st_base,1)
         
         % Ensure we havent exceeded comparison spike train
         if low_comp_idx > num_st_comp
-            fprintf('\nlow_comp_time = %0.8f', low_comp_time)
-            fprintf('\nspike_idx = %d', spike_j)
-            fprintf('\nspike_time = %0.8f', spike_time)
-            fprintf('\nlow_comp_idx = %d', low_comp_idx)
+            % fprintf('\nlow_comp_time = %0.8f', low_comp_time)
+            % fprintf('\nspike_idx = %d', spike_j)
+            % fprintf('\nspike_time = %0.8f', spike_time)
+            % fprintf('\nlow_comp_idx = %d', low_comp_idx)
             
             low_comp_time = inf; % flag that will be caught by next check
         else
@@ -128,7 +128,10 @@ for spike_j = 1 : size(st_base,1)
             % If we found a tie, randomly assign closest template
             if tie_counter > 0
 %                 fprintf('\n\n**TIE for spike %d**\n\n', spike_j)
-                closest_idx = randsample( time_diff_idxs(1: (tie_counter+1)), 1);
+                rand_idx    = randi(tie_counter+1);
+                curr_idxs   = time_diff_idxs(1:tie_counter+1);
+                closest_idx = curr_idxs( rand_idx );
+                % closest_idx = randsample( time_diff_idxs(1: (tie_counter+1)), 1);
                 closest_st = st_comp( curr_comp_idxs(closest_idx) , 1); 
                 closest_temp = st_comp( curr_comp_idxs(closest_idx) , 2);
                 hit_struct(spike_j).TIE = true;

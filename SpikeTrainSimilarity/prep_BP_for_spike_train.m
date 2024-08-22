@@ -3,13 +3,19 @@ function [spike_train, base_tets] = prep_BP_for_spike_train(Spike_Data, ops)
 %%% extract BP curated data we investigate
 % input Spike_Data  --> BP manually curated spikes
 % ops               --> time_start, time_end, bp_tets
-time_start  = ops.time_start;
-time_end    = ops.time_end;
+time_start_list  = ops.time_start;
+time_end_list    = ops.time_end;
 TETS        = ops.bp_tets;
 
+% Keep based on spikes
+keep_stime = false( size(Spike_Data,1) , 1 );
+for start_iter = 1 : numel( time_start_list )
+    time_start  = time_start_list( start_iter );
+    time_end    = time_end_list( start_iter );
+    keep_stime_iter = (Spike_Data(:,1) <= time_end) &  (Spike_Data(:,1) >= time_start);
+    keep_stime = keep_stime_iter | keep_stime;
+end
 
-
-keep_stime = (Spike_Data(:,1) <= time_end) &  (Spike_Data(:,1) >= time_start);
 base_tet_bool = false( size(Spike_Data(:,1) ) );
 
 % keep only those on tetrodes we care about
