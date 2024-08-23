@@ -8,9 +8,9 @@ ext_ops.post_sp_samps   = 33;
 % Main options for pre-linking
 
 % Starts (in hours) for blocks
-start_list  = [0 1 2 3];
+start_list  = [0 1 2];
 % Ends (in hours for blocks
-end_list    = [2 3 4 5];
+end_list    = [2 3 4];
 
 % File path to extracted waveforms
 sorter_ops.path         = '/Volumes/PM-HD/FAST_data/SorterOutput/MS5';
