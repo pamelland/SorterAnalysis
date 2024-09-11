@@ -1,3 +1,31 @@
+%% solve_linkage.m: Function to solve an integer programming problem 
+%%   that links neural units across n_block sorting blocks.
+%%
+% INPUTS:   tree_cell:  (1 x n_block) cell array of "tree" structures, as produced by get_tree_info.m
+%           units:      (1 x n_block) cell array of unit lists 
+%           clust_sim:  (1 x (n_block-1)) cell array of matrices, each
+%               containing unit-to-unit distances between two adjacent blocks
+%           ops:        options
+%           ops.nPCs:   Number of PCS [10]
+%           ops.alpha:  Linkage value of leaves (passed to compute_cluster_scores) [0]
+%           ops.linkage_method: ['average']
+%           ops.link:           Formula for node quality (passed to compute_cluster_scores) ['parent_diff']
+%           ops.knn_min:        [18]
+%           ops.off_set:    Offset used for node-to-node similarities   [0.3679]
+%           ops.lambda:     Overall weight used for node-to-node similarities [1]
+%           ops.sim_type: ['gauss']
+%           ops.constraint_type:    Allow chains to begin or end at intermediate blocks ('ineq'), 
+%                                   or force them to go end-to-end ('eq')
+%           ops.weight_by_leaf_count:   Whether to weight cluster quality by leaf number [0/1]
+%
+% OUTPUTS:  x:          (1 x n_block) cell array of {0,1}-arrays indicating which
+%                       nodes should be active
+%           X:          (1 x (n_block-1) cell array of {0,1}-matrices
+%                       indicating inter-block links should be active
+%
+% Called by: cluster_trees_by_file
+% Calls:  compute_cluster_scores,  gen_constraint_mats_cell
+% Calls:  intlinprog 
 function [x, X] = solve_linkage(tree_cell, ...
                             units, ...
                             clust_sim, ...
@@ -19,7 +47,8 @@ for block_iter = 1 : n_blocks
     idxs = idxs + shift;
     C_scores(idxs) = compute_cluster_scores(tree_cell{block_iter}, ops);
 end
-%% Generate constaing matrices and vectors
+
+%% Generate constraint matrices and vectors
 [A, B, C] = gen_constraint_mats_cell( tree_cell );
 
 % stack them all up into M * x <= b
@@ -32,6 +61,7 @@ end
 b1 = zeros( size(A,1) + size(B,1), 1);
 b2 = ones(  size(C,1), 1);
 b = [b1;b2];
+
 %% Objective function to minimize
 stacked_clust_sim = [];
 for group_iter = 1 : numel( units ) - 1
@@ -46,17 +76,23 @@ f = -[C_scores(:);
 if ops.weight_by_leaf_count
     leaf_count = cell(n_blocks,1);
     scale = cell(n_blocks + (n_blocks-1),1);
+    % For each node: scale its contribution by #of leaves among its
+    % children
     for block_iter = 1 : n_blocks
         leaf_count{block_iter} = arrayfun(@(j) numel( tree_cell{block_iter}{j,3} ), 1 : n_nodes{block_iter} );
         scale{block_iter} = leaf_count{block_iter}(:);
     end
     
+    % For each possible node-to-node link: scale its contribution by 1
     for block_iter = 1 : n_blocks-1
         scale{block_iter + n_blocks} = ones( numel(leaf_count{block_iter})*numel(leaf_count{block_iter+1}),1 );
+        %block_iter
+        %scale{block_iter+n_blocks}
     end
-    
     f = vertcat( scale{:} ).*f;
+  
 end
+
 %% Solve linear program
 % - assign all ouput variable to be integer valued - %
 intcon = 1 : numel(f);
@@ -84,6 +120,8 @@ if strcmp( ops.constraint_type, 'ineq')
 elseif strcmp( ops.constraint_type, 'eq')
 
     % - ineq & eq - %
+    % - A, B are equality constraints: forces chains to 
+    %   go end-to-end
     [xsol,fval,exitflag,output] = intlinprog(  f, ...
                         intcon, ...
                         C, b2, ...

@@ -1,13 +1,13 @@
 function [A,B,C] = gen_constraint_mats_cell(tree_cell)
 % generate constraint matrices for solving linear programming problem of
 % linking trees
-% On input: tree_cell   --> cell array whose entries are cells containing
+% INPUT:    tree_cell   --> cell array whose entries are cells containing
 %                           tree structure for each tree to be linked.
-% On exit:  A           --> matrix for constaining that each outgoing link
-%                           is less than cluster inidcator
-%           B           --> matrix for constraining that each incoming link
+% OUTPUTS:  A           --> matrix expressing constraint that each outgoing link
 %                           is less than cluster indicator
-%           C           --> matrix for constraining that each leaf node is
+%           B           --> matrix expressing constraint that each incoming link
+%                           is less than cluster indicator
+%           C           --> matrix expressing constraint that each leaf node is
 %                           only in one selected cluster (node)
 % ----------------------------------------------------------------------- %
 
