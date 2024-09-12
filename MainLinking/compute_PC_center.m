@@ -1,4 +1,5 @@
 function [center_measure,label_id] = compute_PC_center(score,labels,cent_func)
+% compute_PC_center: Compute central location of a set of waveforms in PC space
 % INPUTS:
 %   score       --> PC scores [n_obs  x  obs_dim]
 %   labels      --> labels for PC [n_obs x 1]

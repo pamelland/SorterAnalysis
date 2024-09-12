@@ -1,7 +1,7 @@
 function [PC_struct] = compute_PCs_waveforms(tetrode, ...
                                              units_for_PCA, ...
                                              waves_cell)
-% compute_PCs_waveforms: 
+% compute_PCs_waveforms: Apply PCA to a set of waveforms
 % ----------------------------------------------------------------------- %
 % INPUTS:
 %   tetrode         --> index of tetrode in data file. E.g., if you have 
