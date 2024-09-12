@@ -7,7 +7,7 @@ CONTENTS:
 | File name | Description |  
 | --------- | ----------- |
 | **MainLinking/** | *Main algorithm* for FUSE: linking the results of multiple local sorted epochs|
-| MainLinking/cluster_tress_by_file.m | Driver routine for FUSE |
+| MainLinking/cluster_trees_by_file.m | Driver routine for FUSE |
 | MainLinking/compute_PCs_waveforms.m | | 
 | MainLinking/compute_PC_center.m | |
 | MainLinking/group_PC_struct.m | | 
