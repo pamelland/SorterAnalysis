@@ -1,7 +1,18 @@
 # SorterAnalysis
 
 Overall Description
-FUSE: 
+FUSE (Feature-space Unification of Sorted Epochs) is an algorithm to
+track neural units across multiple, individually sorted blocks. 
+
+General Workflow, and where to find the associated files:
+
+| Step | Description | Directory |
+----- | ---------| --------| 
+Pre-processing |  Run a local sorter on each block, package results | Extract Waveforms |
+FUSE | Main linking program | MainLinking |
+Post-processing | Anything here? | ? |
+Analysis and Visualization |  | ? |
+
 
 CONTENTS: 
 | File name | Description |  
@@ -17,8 +28,8 @@ CONTENTS:
 | MainLinking/find_path_to_root.m | Get all parents of a designated node, up to the root. |
 | MainLinking/get_constraints_mats_cell.m | Generate constraint matrices for solving linear programming problem |
 | MainLinking/get_tree_info.m |  Beginning from a compact hierarchal tree structure created by *linkage*, extract structure info needed to create constraint matrix for integer programming problem |
-| MainLinking/group_PC_struct.m | | 
-| MainLinking/make_unique_constraint.m | |
+| MainLinking/group_PC_struct.m |  Apply PCA to a *cell array* of sets of waveforms | 
+| MainLinking/make_unique_constraint.m | Helper function for get_constraint_mats_cell.m |
 | MainLinking/solve_linkage.m | Solve an integer programming problem to link neural units across sorted epochs | 
 | **AmplitudeDriftPlots/** |  |
 | AmplitudeDriftPlots/file1.m |  |
