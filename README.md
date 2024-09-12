@@ -31,13 +31,15 @@ CONTENTS:
 | MainLinking/get_constraints_mats_cell.m | Generate constraint matrices for solving linear programming problem |
 | MainLinking/make_unique_constraint.m | Helper function for get_constraint_mats_cell.m |
 | MainLinking/solve_linkage.m | Solve an integer programming problem to link neural units across sorted epochs | 
+| Pre-processing |   | 
+| **ExtractWaveforms/** |  Extract Waveforms |
+| **PostSorter-PreAnalysis/** |  |
+| **RedundantUnits/** |  |
+| Visualization | |
 | **AmplitudeDriftPlots/** |  |
 | AmplitudeDriftPlots/file1.m |  |
 | AmplitudeDriftPlots/file2.m  |  |
 | **ConsolidateFigures/** |   |
-| **ExtractWaveforms/** |  |
 | **MS5_SanityChecks/** |  |
-| **PostSorter-PreAnalysis/** |  |
-| **RedundantUnits/** |  |
 | **SorterAssessmentPlots/** |  |
 | **SpikeTrainSimilarity/** |  |

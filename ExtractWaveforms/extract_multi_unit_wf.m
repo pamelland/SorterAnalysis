@@ -1,3 +1,9 @@
+% extract_multi_unit_wf.m: extract waveforms to be used by FUSE
+%
+% Assumes in workspace:
+%  st1:     (nSpikes x 2) array of times (:,1) and unit numbers (:,2)
+%
+
 %%
 ext_ops.Fs              = 30000;    % sampling freq
 ext_ops.n_waves_ext     = 1000;     % number of waves to extract
@@ -27,6 +33,6 @@ waves_cell = extract_waveforms(st, units_to_extract, ext_ops);
 
 % option to save waves_cell
 
-
-
+% Save back in the same place spikes came from (assuming I have that
+% parameter set properly?
 save( fullfile(paths.sorted_spikes,'waveforms.mat'), 'waves_cell','-v7.3');
