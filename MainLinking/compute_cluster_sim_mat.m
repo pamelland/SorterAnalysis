@@ -1,13 +1,30 @@
 function [sim_measure, dist_mat] = compute_cluster_sim_mat(tree1,tree2,ops)
-% Compute similarity between clusters based on common space
-
-% near neighbors to use for scaling paramater
+%% compute_cluster_sim_mat: Compute similarity between clusters 
+%%    in adjacent blocks, based on common PC space
+%
+% INPUTS:   tree1:      (nNode1 x 5) cell array defining a tree
+%           tree2:      (nNode2 x 5) cell array defining a tree
+%           ops:        options
+%           ops.knn:    # of nearest neighbors to use for scaling parameter
+%           ops.sim_type  ['gauss']
+%
+% OUTPUTS:  sim_measure: (nNode1 x nNode2) array with similarity between
+%               each pair of nodes (one from tree1, the other from tree2)
+%           dist_mat:   (nNode1 x nNode2) like sim_measure; but distance
+%               (1-1 functional relationship with sim_measure)
+%
+% Called by: cluster_trees_by_file.m
+% Calls: knnsearch
+% 
+% # of near neighbors to use for scaling paramater
 knn_min = ops.knn_min;
 
 % only use 'gauss'
 sim_type = ops.sim_type;
 
-% extract centroids
+% extract centroids of all nodes
+% 
+% size(c1_mds) = (nNodes1, nPC)
 c1_mds = vertcat( tree1{:,4} );
 c2_mds = vertcat( tree2{:,4} );
 

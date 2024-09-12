@@ -1,3 +1,20 @@
+%% Driver for FUSE
+
+
+%% 1) For each block: read in waveforms
+%% 2) OPTIONAL: center_spikes
+%% 3) For each block: compute PCs from waveforms (compute_PCs_waveforms)
+%% 4) For each block: compute median of each unit in its PC space (compute_PC_center)
+%%     Use (3)+(4) to get a denoised waveform for each unit
+%% 5) Create a common PC space using the denoised waveforms (group_PC_struct)
+%%     Find each unit in common PC space (compute_PC_center)
+%% 6) For each block: Get pairwise distances between denoised waveforms (pdist); 
+%%    compute hierarchal trees (linkage); compile tree structure (get_tree_info)
+%% 7) For each pair of adjacent blocks: Compute similarity between each pair of units
+%%      (compute_cluster_sim_mat)
+%% 8) Solve integer programming problem (solve_linkage)
+
+
 %% These should probably be read in from waveform file (which means should be saved to waveform files)
 % As it is now, hardcoded
 ext_ops.Fs              = 30000;
@@ -13,10 +30,15 @@ start_list  = [0 1 2];
 end_list    = [2 3 4];
 
 % File path to extracted waveforms
-sorter_ops.path         = '/Volumes/PM-HD/FAST_data/SorterOutput/MS5';
+%sorter_ops.path         = '/Volumes/PM-HD/FAST_data/SorterOutput/MS5';
+sorter_ops.path         = '/Users/andreakbarreiro/Dropbox/MyProjects_Current/Pake/FUSE/Local_Sorter_Output';
+
+
 % subfolder for extracted waveforms (likely named according to sorting
 %   hyperparams)
-sorter_ops.subfolder    =  'STD-14_ClipSize-50';
+
+%sorter_ops.subfolder    =  'STD-14_ClipSize-50';
+sorter_ops.subfolder    =  '';
 
 
 % option to center spikes at peak amplitude
@@ -63,6 +85,7 @@ ops.constraint_type = 'ineq';  % 'eq'  'ineq'
 ops.weight_by_leaf_count = true;
 
 %%
+%% 1) For each block: read in waveforms
 
 % Number of sorting blocks
 n_blocks = numel(start_list);
@@ -76,6 +99,17 @@ for block_iter = 1 : numel(start_list)
     start_str   = sprintf('%04d',start_list(block_iter) *60);
     end_str     = sprintf('%04d',end_list(block_iter)   *60);
     
+    % AKB: The file "waveforms.mat' contains a nUnit x 5 cell
+    % This must have been processed from the original local sorter output
+    % Where is the script that does that?
+    %   into a standardized form:
+    %   Column 1: matrix of waveforms: 4 x nt x 1000
+    %   Column 2: number of waveforms for this unit (up to 1000)
+    %   Column 3: unit numbers
+    %   Column 4: channel order; in which waveforms are reported? Or order
+    %       in which "max amplitudes" are reported?
+    %   Column 5: Max amplitude on each channel (?)
+
     % load waveforms
     waves = load( fullfile(sorter_ops.path, ...
                            sprintf('%s-%s',start_str, end_str), ...
@@ -95,6 +129,7 @@ end
 clear waves waves_name waves_temp start_str end_str
 %% option to center spikes
 
+%% 2) OPTIONAL: center_spikes
 if center_spikes_bool
     for block_iter = 1 : n_blocks
         centered_temp           = center_spikes( waves_cell{block_iter}, center_ops);
@@ -108,7 +143,8 @@ end
 
 
 clear centered_temp
-%% get PCs for each
+
+%% 3) For each block: compute PCs from waveforms (compute_PCs_waveforms)
 
 tic
 fprintf('\n\n* Computing PCs for each cluster. *\n')
@@ -121,8 +157,8 @@ end
 fprintf('\n* Cluster PCs computed. *\n')
 toc
 
-%% Compute medians for each
-
+%% 4) For each block: compute median of each unit in its PC space (compute_PC_center)
+%%     Use (3)+(4) to get a denoised waveform for each unit
 tic
 fprintf('\n\n* Computing PCs medians each cluster. *\n')
 
@@ -137,6 +173,7 @@ fprintf('\n* PC medians computed. *\n')
 toc
 
 clear PC_temp ID_temp
+
 %% Use centroid to construct denoised waveforms using first PCs
 
 tic
@@ -150,7 +187,8 @@ end
 fprintf('\n\n* Denoised waveforms computed. *\n')
 toc
 
-%% Put average waveforms in common PC space
+%% 5) Create a common PC space using the denoised waveforms (group_PC_struct)
+%%     Find each unit in common PC space (compute_PC_center)
 clc
 
 tic
@@ -162,13 +200,14 @@ fprintf('\n\n* Denoised waveforms in common PC space. *\n')
 toc
 
 
-%% Cluster each individually in common PC space
+%% Locate each individual cluster (unit) in common PC space
 [PC_meds_grouped, PC_meds_IDs_grouped] = compute_PC_center(PC_struct_grouped.score, PC_struct_grouped.labels, @mean);
 
 % ----------------------------------------------------------------------- %
 clear Y Z input_data
 plot_individual_trees = true;
 tree_cell = cell(1,n_blocks);
+%% Extract the common-PC coordinates for units in each block.
 for group_iter = 1 : numel(units)
     idxs  = 1 : numel( units{group_iter} );
     shift = numel( vertcat( units{1:group_iter} )) - numel( units{group_iter} );
@@ -176,9 +215,8 @@ for group_iter = 1 : numel(units)
     input_data{group_iter} = PC_meds_grouped(idxs,1:ops.nPCs);
 end
 
-
-
-
+%% 6) For each block: Get pairwise distances between denoised waveforms (pdist); 
+%%    compute hierarchal trees (linkage); compile tree structure (get_tree_info)
 for group_iter = 1:numel(units)
     % - pairwise distances - %
     Y{group_iter} = pdist( input_data{group_iter} );
@@ -196,8 +234,11 @@ for group_iter = 1:numel(units)
 
 end
 
+%% 7) For each pair of adjacent blocks: Compute similarity between each pair of units
+%%      (compute_cluster_sim_mat)
 for group_iter = 1 : numel(units)-1
     % - compute cluster similarity - %
+    % In between each pair of adjacent trees
     [clust_sim_temp, clust_dist_temp] = compute_cluster_sim_mat(tree_cell{group_iter}, ...
                                                                 tree_cell{group_iter+1}, ...
                                                                 ops);
@@ -208,7 +249,8 @@ end
 
 % - plot cluster similarity - %
 
+%% 8) Solve integer programming problem (solve_linkage)
 
 %% Wrapped up optimization problem
-[x, X] = solve_linkage(tree_cell, units, clust_sim,ops);
+[x, X] = solve_linkage(tree_cell, units, clust_sim, ops);
 

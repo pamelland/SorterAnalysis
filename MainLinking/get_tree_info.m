@@ -1,6 +1,25 @@
 function [tree_cell] = get_tree_info(Z,leaf_list,leaf_coords,cent_func)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+% get_tree_info: Beginning from a compact hierarchal tree structure created
+%       by ``linkage", extract structure info needed to create constraint
+%       matrix for integer programming problem
+% INPUTS:
+%   Z:          (n_nodes x 3)  matrix encoding binary tree; each row contains a merger,
+% %                 including 2 node IDs and the height at which merger occured 
+%   leaf_list:  (n_leaf x 1) list of nodes which are leafs in the tree
+%   leaf_coords: (n_leaf x nPC): coordinates of each leaf in PC space
+%   cent_func:  (function_handle): function to use to get coordinates for
+%           non-leaf nodes.
+% OUTPUTS:
+%   tree_cell:  (n_nodes x 5) cell array
+%   tree_cell{:,1}:     Node IDs
+%   tree_cell{:,2}:     All ancestors of each node (path_to_root)
+%   tree_cell{:,3}:     All leafs which are children of each node
+%   tree_cell{:,4}:     Coordinates of each node in PC space
+%   tree_cell{:,5}:     Linkage value of each node
+%
+% Called by: cluster_trees_by_file
+% Calls: path_to_root, find_leaf
+%
 
 nodes = sort( [unique(Z(:,1)); unique(Z(:,2))] );
 

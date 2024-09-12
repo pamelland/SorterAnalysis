@@ -1,7 +1,16 @@
 function [link_out] = compute_cluster_scores(tree1,ops)
-% Compute cluster scores based on various methods. Most empirical success:
-%   'parent_diff'
-
+%% compute_cluster_scores.m: Compute cluster quality based on various methods. 
+% %  Most empirical success:  'parent_diff'
+%
+% INPUTS:   tree1:      (nNode x 5) cell array defining a tree
+%           ops:        options
+%          USED IN THIS FUNCTION
+%           ops.alpha:      Linkage value of leaves 
+%           ops.link:       Formula for quality of nodes
+%               ['zero'/'zero_flip'/'one'/'tier'/'parent_diff']
+%  NEEDED: quick summary of what these different options mean
+%
+% OUTPUTS:  link_out:       List of node qualities
 
 % alpha < -- > what linkage value do you assign leaves ???
 alpha = ops.alpha;
