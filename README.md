@@ -10,8 +10,7 @@ CONTENTS:
 | MainLinking/cluster_trees_by_file.m | Driver routine for FUSE |
 | MainLinking/center_spikes.m | Center spikes on their peak (minimum) voltage |
 | MainLinking/compute_cluster_scores.m | Compute cluster quality |
-| MainLinking/compute_cluster_sim_mat.m | Compute similarity between units 
-in adjacent blocks, based on common PC space |
+| MainLinking/compute_cluster_sim_mat.m | Compute similarity between units in adjacent blocks, based on common PC space |
 | MainLinking/compute_PC_center.m |  Compute central location of a set of waveforms in PC space |
 | MainLinking/compute_PCs_waveforms.m | Apply PCA to a set of waveforms | 
 | MainLinking/find_leaf.m | Return a list of children of a designated node and their linkage values |
