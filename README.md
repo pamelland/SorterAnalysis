@@ -14,7 +14,7 @@ CONTENTS:
 in adjacent blocks, based on common PC space |
 | MainLinking/compute_PC_center.m |  Compute central location of a set of waveforms in PC space |
 | MainLinking/compute_PCs_waveforms.m | Apply PCA to a set of waveforms | 
-| MainLinking/find_leaf.m | Return a list of children of a designated node, +their
+| MainLinking/find_leaf.m | Return a list of children of a designated node and their
       linkage values |
 | MainLinking/find_path_to_root.m | Get all parents of a designated node, up to the root. |
 | MainLinking/get_constraints_mats_cell.m | Generate constraint matrices for solving linear programming problem |
