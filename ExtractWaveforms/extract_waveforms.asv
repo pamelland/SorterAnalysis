@@ -28,12 +28,7 @@ waves_cell = cell(numel(units), 2);
 %   4-hour blocks. This created a problem with Kilosort which cannot 
 %   handle 2s gaps. To solve this we stitched the files together, 
 %   retaining the "subtracted" time in a table, so it could be
-%   appropriately added back in later. 
-%  (1) This book-keeping should happen at a higher level, not down in
-%  "extract_waveforms"
-%  (2) Unclear whether we need to keep at all since MS does not care about
-%  a gap
-% 
+%   appropriately
 %
 % ----------------------------------------------------------------------- %
 % get data path and load t-shift table if necessary

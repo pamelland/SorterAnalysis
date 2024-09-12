@@ -8,6 +8,8 @@ Currently I have "waveforms.mat". But should also have
 - Ground Truth spike time lists, but only for those 4 hours.
 - Spike times from the 3 sorted blocks (I have waveforms only)
 
+ANS: Pake will get me these files and I will put explainers for them and simplify Matlab code
+
 *******************************
 
 
