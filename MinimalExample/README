@@ -1,1 +1,23 @@
+What we need for a minimal example:
 
+1) "Inflate" snippets into a full voltage trace  (needed because full trace will be too large for Github)
+
+2) Extract/save waveforms from voltage trace
+   In extract_waveforms, list options that need to be set for minimal example
+
+3) Direct users to a file like "set_main_path".
+    - Include (additionally) directories for the snippets, waveforms, etc..
+
+Data needed:
+- Voltage snippets ('Spikes001.mat')
+   - (compressed version of full voltage trace?)
+- Spike times and unit IDs from sorter on each block.
+
+
+Alternative possibility: make a smaller "minimal example" with a full voltage trace
+
+i.e. 
+EXAMPLE #1: 3 2 hr- blocks: 0-2, 1-3, 2-4
+
+EXAMPLE #2: 3 10 min blocks: 0-10, 5-15, 10-20
+Provide full voltage trace (20 min)
