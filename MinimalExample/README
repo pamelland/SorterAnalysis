@@ -13,6 +13,14 @@ Data needed:
    - (compressed version of full voltage trace?)
 - Spike times and unit IDs from sorter on each block.
 
+OVERALL NEED: Coordinate options across different steps in the process.
+For example: extract_waveforms and "InflateSnippets" both rely on how to place spikes, 
+how long snippets should be, etc.., sampling frequency
+Move this to "set options file" possibly set_main_path
+TODO for AKB: Start documenting all options used. make a note of when I am done with 
+   each file/step. 
+
+TODO for Pake: Finish putting together minimal examples
 
 Alternative possibility: make a smaller "minimal example" with a full voltage trace
 
