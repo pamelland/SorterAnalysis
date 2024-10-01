@@ -21,6 +21,10 @@ TODO for AKB: Start documenting all options used. make a note of when I am done 
    each file/step. 
 
 TODO for Pake: Finish putting together minimal examples
+Including basic graphs (for example, we have "ground truth" for confusion matrix)
+- Confusion matrix (compare with ground truth)
+- Amplitude over time and/or firing rate over time (for specific unit)
+- Firing rates of "constituent units" compared with linked unit + ground truth (OPTIONAL for user)
 
 Alternative possibility: make a smaller "minimal example" with a full voltage trace
 
