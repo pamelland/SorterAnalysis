@@ -1,3 +1,7 @@
+function [x, X] = solve_linkage(tree_cell, ...
+                            units, ...
+                            clust_sim, ...
+                            ops)
 %% solve_linkage.m: Function to solve an integer programming problem 
 %%   that links neural units across n_block sorting blocks.
 %%
@@ -7,13 +11,16 @@
 %               containing unit-to-unit distances between two adjacent blocks
 %           ops:        options
 %           ops.nPCs:   Number of PCS [10]
-%           ops.alpha:  Linkage value of leaves (passed to compute_cluster_scores) [0]
 %           ops.linkage_method: ['average']
-%           ops.link:           Formula for node quality (passed to compute_cluster_scores) ['parent_diff']
+%%%%%%  Used in "compute_cluster_scores"
+%           ops.alpha:  Linkage value of leaves  [0]
+%           ops.link:   Formula for node quality ['parent_diff']
+%%%%%%  Used in "compute_cluster_sim_mat"
 %           ops.knn_min:        [18]
+%           ops.sim_type: ['gauss']
+%%%%%%  Used in this function ("solve_linkage")
 %           ops.off_set:    Offset used for node-to-node similarities   [0.3679]
 %           ops.lambda:     Overall weight used for node-to-node similarities [1]
-%           ops.sim_type: ['gauss']
 %           ops.constraint_type:    Allow chains to begin or end at intermediate blocks ('ineq'), 
 %                                   or force them to go end-to-end ('eq')
 %           ops.weight_by_leaf_count:   Whether to weight cluster quality by leaf number [0/1]
@@ -26,10 +33,7 @@
 % Called by: cluster_trees_by_file
 % Calls:  compute_cluster_scores,  gen_constraint_mats_cell
 % Calls:  intlinprog 
-function [x, X] = solve_linkage(tree_cell, ...
-                            units, ...
-                            clust_sim, ...
-                            ops)
+
 % Number of sorter blocks
 n_blocks = numel( tree_cell );
 

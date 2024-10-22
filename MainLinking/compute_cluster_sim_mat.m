@@ -5,7 +5,7 @@ function [sim_measure, dist_mat] = compute_cluster_sim_mat(tree1,tree2,ops)
 % INPUTS:   tree1:      (nNode1 x 5) cell array defining a tree
 %           tree2:      (nNode2 x 5) cell array defining a tree
 %           ops:        options
-%           ops.knn:    # of nearest neighbors to use for scaling parameter
+%           ops.knn_min:    # of nearest neighbors to use for scaling parameter
 %           ops.sim_type  ['gauss']
 %
 % OUTPUTS:  sim_measure: (nNode1 x nNode2) array with similarity between
