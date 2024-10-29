@@ -8,9 +8,10 @@ General Workflow, and where to find the associated files:
 
 | Step | Directory | Description |
 ----- | ---------| --------| 
-| Pre-processing | ExtractWaveforms |   |
+| Pre-processing | InflateSnippets |  Create a continuous voltage trace, if necessary |
+|  | ExtractWaveforms |  After local sorter, extract sample waveforms for each unit |
 | | PostSorter-PreAnalysis |  ? |
-| | RedundantUnits |  ? |
+| | RedundantUnits |  Remove units that have only redundant spikes (addresses problem in MS4) |
 | FUSE | MainLinking | Main linking program |
 | Post-processing | Anything here? | ? |
 | Analysis and Visualization |  AmplitudePlots | ? |
