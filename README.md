@@ -6,12 +6,15 @@ track neural units across multiple, individually sorted blocks.
 
 General Workflow, and where to find the associated files:
 
-| Step | Description | Directory |
+| Step | Directory | Description |
 ----- | ---------| --------| 
-Pre-processing |  Run a local sorter on each block, package results | Extract Waveforms |
-FUSE | Main linking program | MainLinking |
-Post-processing | Anything here? | ? |
-Analysis and Visualization |  | ? |
+| Pre-processing | ExtractWaveforms |  Run a local sorter on each block, package results |
+| | PostSorter-PreAnalysis |  ? |
+| FUSE | MainLinking | Main linking program |
+| Post-processing | Anything here? | ? |
+| Analysis and Visualization |  AmplitudePlots | ? |
+|   | ConsolidateFigures | ? |
+----- | ---------| ----------|
 
 
 CONTENTS: 
