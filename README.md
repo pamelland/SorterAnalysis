@@ -10,7 +10,7 @@ General Workflow, and where to find the associated files:
 ----- | ---------| --------| 
 | Pre-processing | InflateSnippets |  Create a continuous voltage trace, if necessary |
 |  | ExtractWaveforms |  After local sorter, extract sample waveforms for each unit |
-| | PostSorter-PreAnalysis |  (?) Compensate for the a removed time gap, if necessary (used when local sorter is kilosort, which fails if theer is more than a ## gap between events |
+| | PostSorter-PreAnalysis |  (?) Compensate for the a removed time gap, if necessary (used when local sorter is kilosort, which fails if there is more than a ## gap between events |
 | | RedundantUnits |  Remove units that have only redundant spikes (addresses problem in MS4) |
 | FUSE | MainLinking | Main linking program |
 | Post-processing | Anything here? | ? |
