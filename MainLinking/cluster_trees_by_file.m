@@ -75,15 +75,6 @@ ops.nPCs = 10;  % Number of PCs to use when forming links in COMMON
 % (6) Compute linkage
 ops.linkage_method = 'average';  % 'single', 'centroid', 'average'
 
-
-% used in compute_cluster_scores
-ops.alpha = 0;  % how to assign linkage to leaves? // alpha = 0 assigns 
-                % leaves a linkage of zero. alpha = 1 assigns leaves a
-                % linkage equal to the linkage of the first group formed.
-
-ops.link = 'parent_diff';          % 'zero' 'zero_flip'  'tier'  'one'  'parent_diff'
-
-
 % (7)  Compute similarity between each pair of units, in each
 %        adjacent pair of blocks
 % Used in "compute_cluster_sim_mat"
@@ -94,6 +85,18 @@ ops.sim_type = 'gauss';     % kernel for cluster similarity // only
 
 
 % 8) Used in  "solve_linkage"
+
+% passed to compute_cluster_scores
+ops.alpha = 0;  % how to assign linkage to leaves? // alpha = 0 assigns 
+                % leaves a linkage of zero. alpha = 1 assigns leaves a
+                % linkage equal to the linkage of the first group formed.
+
+ops.link = 'parent_diff';          % 'zero' 'zero_flip'  'tier'  'one'  'parent_diff'
+
+
+ops.quants = 0;   %  %??% Used if ops.link = 'tier'
+
+% Used in main part of solve_linkage
 ops.off_set = exp(-1);      % cluster similarities smaller than this value 
                             % are penalized in objective function
 

@@ -9,6 +9,8 @@ function [child_list, linkage_list] = find_leaf(Z,node,total_points,child_list, 
 %   child_list:     (IF CALLED RECURSIVELY) upstream nodes
 %   linkage_list:   (IF CALLED RECURSIVELY) linkage values for upstream nodes
 %   
+% Called by: get_tree_info, SELF
+% Calls: find_leaf
 
 %% subtract total points from that
 if node <= total_points

@@ -1,6 +1,7 @@
 function [sim_measure, dist_mat] = compute_cluster_sim_mat(tree1,tree2,ops)
 %% compute_cluster_sim_mat: Compute similarity between clusters 
 %%    in adjacent blocks, based on common PC space
+% ----------------------------------------------------------------------- %
 %
 % INPUTS:   tree1:      (nNode1 x 5) cell array defining a tree
 %           tree2:      (nNode2 x 5) cell array defining a tree
@@ -13,6 +14,7 @@ function [sim_measure, dist_mat] = compute_cluster_sim_mat(tree1,tree2,ops)
 %           dist_mat:   (nNode1 x nNode2) like sim_measure; but distance
 %               (1-1 functional relationship with sim_measure)
 %
+% ----------------------------------------------------------------------- %
 % Called by: cluster_trees_by_file.m
 % Calls: knnsearch
 % 
