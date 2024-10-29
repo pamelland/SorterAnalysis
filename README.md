@@ -8,13 +8,16 @@ General Workflow, and where to find the associated files:
 
 | Step | Directory | Description |
 ----- | ---------| --------| 
-| Pre-processing | ExtractWaveforms |  Run a local sorter on each block, package results |
+| Pre-processing | ExtractWaveforms |   |
 | | PostSorter-PreAnalysis |  ? |
+| | RedundantUnits |  ? |
 | FUSE | MainLinking | Main linking program |
 | Post-processing | Anything here? | ? |
 | Analysis and Visualization |  AmplitudePlots | ? |
 |   | ConsolidateFigures | ? |
------ | ---------| ----------|
+|   | SorterAsssessmentPlots | ? |
+|   | SpikeTrainSimilarity | ? |
+| ----- | ---------| ----------|
 
 
 CONTENTS: 
