@@ -1,4 +1,5 @@
-
+%% What is the starting point for this routine?
+%% What pieces of data do I need to have in memory?
 
 %%
 unit_list = [8];

@@ -276,3 +276,10 @@ end
 %% Wrapped up optimization problem
 [x, X] = solve_linkage(tree_cell, units, clust_sim, ops);
 
+%% If I needed to save the output here, what would I save?
+% x, X
+% 
+%% Used by Consolidate_Figures/waves_PC_link
+% % proj_waveforms: unit waveforms in common PC space
+% % PC_struct_grouped
+% 

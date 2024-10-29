@@ -1,9 +1,13 @@
 clc
 clear paths 
-%%
 
-start_in_hours  = 10;
-end_in_hours    = 22;
+%%
+%% _ALT.m
+%% On Andrea's computer
+
+%% It doesn't seem like this is used. 
+start_in_hours  = 0;
+end_in_hours    = 4;
 
 %% path to MATLAB directory
 
@@ -22,9 +26,9 @@ addpath( genpath(paths.matlab_folder_path) );
 
 %% path to sorted file
 % paths.sorted_spikes = sprintf('/Volumes/PM-HD/FAST_data/SorterOutput/MS5/%04d-%04d/STD-14_ClipSize-50',start_in_hours*60,end_in_hours*60);
-paths.sorted_spikes = sprintf('/Volumes/PM-HD/FAST_data/SorterOutput/MS5/%04d-%04d_%04d-%04d/STD-14_ClipSize-50',600,720,1200,1320);
+%paths.sorted_spikes = sprintf('/Volumes/PM-HD/FAST_data/SorterOutput/MS5/%04d-%04d_%04d-%04d/STD-14_ClipSize-50',600,720,1200,1320);
 
-%paths.sorted_spikes = sprintf('/Users/andreakbarreiro/Dropbox/MyProjects_Current/Pake/FUSE/Local_Sorter_Output/');
+paths.sorted_spikes = sprintf('/Users/andreakbarreiro/Dropbox/MyProjects_Current/Pake/FUSE/Local_Sorter_Output/');
 
 %% print path structure
 

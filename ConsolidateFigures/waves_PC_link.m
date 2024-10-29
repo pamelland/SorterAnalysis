@@ -1,9 +1,33 @@
+%% waves_PC_link
+% 
+%% Visualize two chains, through the units linked to them, within a single block,
+%% in three ways:
+%% (1) Centroid waveforms 
+%% (2) Projection of centroid in PC space
+%% (3) Location of units in hierarchal trees 
+%
+% By applying this to several consecutive blocks, where b1.units1 are
+% "linked" to b2.units1, b2.units1 "linked" to b3.units1, and so forth, 
+% % one can visualize how a chain
+% is tracked through the entire recording. 
+%
+% Uses:
+%   ext_ops             options from voltage recording
+%   proj_waveforms      projected in PC space? ( nUnits x 268) 
+%
+%   PC_struct_grouped
+
 % NEEDS TREE INFO FROM cluster_trees_by_file.m
 
+%% Let's see if I have this right: run this 3 times, for 3 consecutive blocks
+%% Each block, set unit1 and unit2 to be linked units in a chain.
+
 %% Set blocks and units
+
 block_number    = 2;
 units1          = [2 6];
 units2          = [14];
+
 %% Set plot options
 
 plot_ops.units1_color   = [0.9 0.4  0];
@@ -38,7 +62,7 @@ plot_ops.scatter_line_width = 1;
 plot_ops.tree_main_line_width       = 1.75;
 plot_ops.tree_background_line_width = 0.75;
 
-%% plot the cluster wave forms
+%% Figure (1) plot the cluster wave forms
 
 Fs = ext_ops.Fs;
 t = ( (0:ext_ops.pre_sp_samps + ext_ops.post_sp_samps) - ext_ops.pre_sp_samps ) ./ Fs * 1000;
@@ -168,7 +192,7 @@ set(gcf, 'Units', 'inches')
 set(gcf, 'Position', [0 0 (1/0.8)*[plot_ops.fig_width plot_ops.fig_height_waves]])
 set(gca, 'FontSize', plot_ops.font_size)
 
-%% Plot PC space
+%% Figure (2) Plot PC space
 [PC_meds_grouped, PC_meds_IDs_grouped] = compute_PC_center(PC_struct_grouped.score, PC_struct_grouped.labels, @mean);
 
 
@@ -259,7 +283,9 @@ nexttile(1)
 PC_tiles.OuterPosition = [0.1 0.1 0.8 0.8];
 set(gcf, 'Units', 'inches')
 set(gcf, 'Position', [0 0 (1/0.8)*[plot_ops.fig_width plot_ops.fig_height_PCs]])
-%% Let's try trees
+
+
+%% Figure (3): Plot hierarchal trees
 
 clear Y Z input_data
 
@@ -267,6 +293,7 @@ idxs  = 1 : numel( units{block_number} );
 shift = numel( vertcat( units{1:block_number} )) - numel( units{block_number} );
 idxs  = idxs + shift;
 input_data = PC_meds_grouped(idxs,1:ops.nPCs);
+
 
 
 
