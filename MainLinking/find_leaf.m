@@ -1,6 +1,7 @@
 function [child_list, linkage_list] = find_leaf(Z,node,total_points,child_list, linkage_list)
 % find_leaf:  return a list of children of a designated node, +their
 %       linkage values
+% ----------------------------------------------------------------------- %
 % INPUTS:
 %   Z:              (n_nodes x 3)  matrix encoding binary tree; each row contains a merger,
 % %                 including 2 node IDs and the height at which merger occured 
@@ -8,7 +9,10 @@ function [child_list, linkage_list] = find_leaf(Z,node,total_points,child_list, 
 %   total_points:   total number of leafs
 %   child_list:     (IF CALLED RECURSIVELY) upstream nodes
 %   linkage_list:   (IF CALLED RECURSIVELY) linkage values for upstream nodes
-%   
+%  
+    
+% Called by: get_tree_info, SELF
+% Calls: find_leaf
 
 %% subtract total points from that
 if node <= total_points

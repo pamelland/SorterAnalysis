@@ -1,5 +1,6 @@
 %% Driver for FUSE
 
+%% 0) Set lots of options (%% TO MOVE TO MORE CENTRAL LOCATION %%)
 
 %% 1) For each block: read in waveforms
 %% 2) OPTIONAL: center_spikes
@@ -15,8 +16,12 @@
 %% 8) Solve integer programming problem (solve_linkage)
 
 
+%% (0) SET OPTIONS 
+%  Ordered by Step ## in which they are used 
+%
 %% These should probably be read in from waveform file (which means should be saved to waveform files)
 % As it is now, hardcoded
+%% Need definitions
 ext_ops.Fs              = 30000;
 ext_ops.pre_sp_samps    = 33; 
 ext_ops.post_sp_samps   = 33; 
@@ -24,15 +29,16 @@ ext_ops.post_sp_samps   = 33;
 % ----------------------------------------------------------------------- %
 % Main options for pre-linking
 
+% (1) For each block: read in waveforms
 % Starts (in hours) for blocks
 start_list  = [0 1 2];
-% Ends (in hours for blocks
+
+% Ends (in hours) for blocks
 end_list    = [2 3 4];
 
 % File path to extracted waveforms
 %sorter_ops.path         = '/Volumes/PM-HD/FAST_data/SorterOutput/MS5';
 sorter_ops.path         = '/Users/andreakbarreiro/Dropbox/MyProjects_Current/Pake/FUSE/Local_Sorter_Output';
-
 
 % subfolder for extracted waveforms (likely named according to sorting
 %   hyperparams)
@@ -40,45 +46,61 @@ sorter_ops.path         = '/Users/andreakbarreiro/Dropbox/MyProjects_Current/Pak
 %sorter_ops.subfolder    =  'STD-14_ClipSize-50';
 sorter_ops.subfolder    =  '';
 
+% (2) OPTIONAL: center_spikes
 
 % option to center spikes at peak amplitude
 center_spikes_bool = true;
 center_ops.buff = 8; 
 center_ops.centered_idx = ext_ops.pre_sp_samps   +1;
 
+% (4) Obtain denoised waveforms
+%
+% Centrality function for averaging waveforms
+centrality_func = @mean; %% \\ mean corresponds to centroid
+
 % PC list for projections to get 'average' waveforms of clusters
 pc_list = 1:10;
 
-% Centrality function for averaging waveforms
-centrality_func = @mean; %% \\ mean corresponds to centroid
 % ----------------------------------------------------------------------- %
 
 
 % ----------------------------------------------------------------------- %
 % - set clustering & linking options - %
-ops.nPCs = 10;  % Number of PCs to use when forming links in COMMON PC space
+
+% (5)  Create a common PC space, locate each unit in this space
+%
+ops.nPCs = 10;  % Number of PCs to use when forming links in COMMON
+                % PC space
+
+% (6) Compute linkage
+ops.linkage_method = 'average';  % 'single', 'centroid', 'average'
+
+% (7)  Compute similarity between each pair of units, in each
+%        adjacent pair of blocks
+% Used in "compute_cluster_sim_mat"
+ops.knn_min = 18;    % scaling parameter is set to the median of the knn_min
+                     % neighbor for each cluster 1 node
+ops.sim_type = 'gauss';     % kernel for cluster similarity // only
+                            % 'gauss' is functional for now
+
+
+% 8) Used in  "solve_linkage"
+
+% passed to compute_cluster_scores
 ops.alpha = 0;  % how to assign linkage to leaves? // alpha = 0 assigns 
                 % leaves a linkage of zero. alpha = 1 assigns leaves a
                 % linkage equal to the linkage of the first group formed.
 
-ops.linkage_method = 'average';  % 'single', 'centroid', 'average'
-
 ops.link = 'parent_diff';          % 'zero' 'zero_flip'  'tier'  'one'  'parent_diff'
 
 
-ops.knn_min = 18;    % scaling parameter is set to the median of the knn_min
-                     % neighbor for each cluster 1 node
+ops.quants = 0;   %  %??% Used if ops.link = 'tier'
 
-
-
+% Used in main part of solve_linkage
 ops.off_set = exp(-1);      % cluster similarities smaller than this value 
                             % are penalized in objective function
 
 ops.lambda   = 1;           % multiplier to increase contribution of cluster similarity scores.
-ops.sim_type = 'gauss';     % kernel for cluster similarity // only 'gauss'
-                            % functional for now
-
-
 
 ops.constraint_type = 'ineq';  % 'eq'  'ineq'
 

@@ -1,11 +1,16 @@
 function [parent_list] = find_path_to_root(node,Z,parent_list)
 % find_path_to_root: Get all parents up the root.
+% ----------------------------------------------------------------------- %
 %
 % INPUTS:
 %   Z:              (n_nodes x 3)  matrix encoding binary tree; each row contains a merger,
 %                   including 2 node IDs and the height at which merger occured 
-%   node:           designated/current node
+%   node:           (int) designated/current node
 %   parent_list:     (IF CALLED RECURSIVELY) downstream nodes
+%
+% ----------------------------------------------------------------------- %
+% Called by: get_tree_info, SELF
+% Calls: find_path_to_root
 
 Z(:, end+1) = (size(Z, 1) + 1 + (1 : size(Z, 1))); % make a column for parents
 

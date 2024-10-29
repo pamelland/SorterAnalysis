@@ -18,7 +18,7 @@ function [tree_cell] = get_tree_info(Z,leaf_list,leaf_coords,cent_func)
 %   tree_cell{:,5}:     Linkage value of each node
 %
 % Called by: cluster_trees_by_file
-% Calls: path_to_root, find_leaf
+% Calls: find_path_to_root, find_leaf
 %
 
 nodes = sort( [unique(Z(:,1)); unique(Z(:,2))] );
