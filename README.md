@@ -47,6 +47,7 @@ CONTENTS:
 | AmplitudeDriftPlots/file1.m |  |
 | AmplitudeDriftPlots/file2.m  |  |
 | **ConsolidateFigures/** |   |
+| ConsolidateFigures/waves_PC_link.m | 3 figures to illustrate linked units: waveforms, PC space, and trees |
 | **MS5_SanityChecks/** |  |
 | **SorterAssessmentPlots/** |  |
 | **SpikeTrainSimilarity/** |  |
