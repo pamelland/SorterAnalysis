@@ -17,7 +17,7 @@ General Workflow, and where to find the associated files:
 |   | ConsolidateFigures | ? |
 |   | SorterAsssessmentPlots | ? |
 |   | SpikeTrainSimilarity | ? |
- ----- | ---------| ----------|
+
 
 
 CONTENTS: 
