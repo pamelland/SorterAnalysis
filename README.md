@@ -44,7 +44,7 @@ CONTENTS:
 | **RedundantUnits/** |  |
 | ***Visualization*** | |
 | **AmplitudeDriftPlots/** |  |
-| AmplitudeDriftPlots/file1.m |  |
+| AmplitudeDriftPlots/drift_amp_test.m |  What is the starting point for this script? |
 | AmplitudeDriftPlots/file2.m  |  |
 | **ConsolidateFigures/** |   |
 | ConsolidateFigures/waves_PC_link.m | 3 figures to illustrate linked units: waveforms, PC space, and trees |
