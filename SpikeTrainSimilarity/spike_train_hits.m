@@ -1,3 +1,13 @@
+%% Note: this currently assumes "paths.sorted_spikes" points directly to
+%% sorted results, rather than to a parent directory that contains multiple blocks. 
+% %% Need to encapsulate this.
+%% Need the function ccg.
+
+% Calls: prep_SI_for_spike_train, prep_KS_for_spike_train,
+%   prep_BP_for_spike_train, hit_miss_2trains
+% 
+
+
 %% First we establish two spike trains. st_base  & st_comp
 % =========================================================================
 % st_base --> the baseline (or "ground truth" spikes)
@@ -39,6 +49,8 @@ bp_ops.bp_tets  = TETS;
 % load('/Volumes/PM-HD/KilosortRez/Spike_Data.mat');
 
 % Zenodo ground truth
+paths.ground_truth = '/Users/andreakbarreiro/Dropbox/MyProjects_Current/Pake/FUSE/GroundTruth/0000-0120/Spike_Data.mat';
+%
 load(paths.ground_truth);
 
 % option to take a subset of only GT spikes for FAST spikes --- discards
@@ -71,7 +83,9 @@ Spike_Data = Spike_Data(st1_top8,:);
 % - possible MS to load - %
 
 
-
+paths.sorted_spikes = '/Users/andreakbarreiro/Dropbox/MyProjects_Current/Pake/FUSE/Local_Sorter_Output/0000-0120/';
+%
+%paths.sorted_spikes = [paths.sorted_spikes '0000-0120/'];
 % % - ZENODO %
 SI = load( fullfile(paths.sorted_spikes,'firings_adjusted.mat') );
 load( fullfile(paths.sorted_spikes,'unit_map.mat') ); % loads unit_map

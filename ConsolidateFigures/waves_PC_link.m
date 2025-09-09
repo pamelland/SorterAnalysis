@@ -4,7 +4,7 @@
 %% in three ways:
 %% (1) Centroid waveforms 
 %% (2) Projection of centroid in PC space
-%% (3) Location of units in hierarchal trees 
+%% (3) Location of units in hierarchical trees 
 %
 % By applying this to several consecutive blocks, where b1.units1 are
 % "linked" to b2.units1, b2.units1 "linked" to b3.units1, and so forth, 

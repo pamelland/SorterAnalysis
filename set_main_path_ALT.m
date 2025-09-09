@@ -23,6 +23,8 @@ addpath( genpath(paths.matlab_folder_path) );
 %% path to ground truth (needed for ground truth comparisons)
 %paths.ground_truth = '/Volumes/PM-HD/FAST_data/GroundTruth/24hrs/Spike_Data.mat';
 
+paths.ground_truth = '/Users/andreakbarreiro/Dropbox/MyProjects_Current/Pake/FUSE/GroundTruth/Spike_Data.mat';
+%
 
 %% path to sorted file
 % paths.sorted_spikes = sprintf('/Volumes/PM-HD/FAST_data/SorterOutput/MS5/%04d-%04d/STD-14_ClipSize-50',start_in_hours*60,end_in_hours*60);
