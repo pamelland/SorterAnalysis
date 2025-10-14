@@ -13,6 +13,7 @@
 
 [leafProj,leafLink] = tree_to_leaf_map(tree_cell,X);
 
+leafLink
 
 % Note: it is possible for the sum to be either more or less than the
 % number of leaves
@@ -33,3 +34,19 @@ for j1=1:numLinks
     disp(['Number of leaves in Block ' num2str(j1+1) ': ' num2str(size(leafProj{j1+1},1))])
     disp(['Total number of leaf-to-leaf connections: ' num2str(sum(sum(leafLink{j1})))])
 end
+
+
+% Try splitting a unit
+nb = 2;
+whichu = 5;
+disp(['After splitting ' num2str(whichu) ' on ' num2str(nb)])
+newll = leaflink_split(leafLink,nb,whichu);
+newll
+
+
+% After merging two units
+nb2 = 1;
+whichu2 = [7 8 11];
+disp(['After merging ' num2str(whichu2) ' on ' num2str(nb2)])
+newll2 = leaflink_merge(leafLink,nb2,whichu2);
+newll2
